@@ -20,7 +20,8 @@ const App: Component = () => {
         if ('BarcodeDetector' in globalThis) {
             const barcodeDetector = new BarcodeDetector();
             try {
-                const codes = await barcodeDetector?.detect([imageCapture?.grabFrame()]);
+                const image = await imageCapture.grabFrame();
+                const codes = await barcodeDetector?.detect(image);
                 codes.forEach((code: any) => {
                     alert(`Сканирован код: ${code.rawValue}`);
                 });
@@ -35,8 +36,11 @@ const App: Component = () => {
     return (
         <div class={styles.App}>
             <header class={styles.header}>
-                <video></video>
-                <button onClick={detectBarcode}>Scan</button>
+                <video style={{ width: '100%', height: '50vh', border: '1px solid crimson' }}></video>
+                <br />
+                <button class={styles.scan} onClick={detectBarcode}>
+                    Scan
+                </button>
             </header>
         </div>
     );
