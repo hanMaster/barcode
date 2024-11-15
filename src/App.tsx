@@ -35,6 +35,7 @@ const App: Component = () => {
             const barcodeDetector = new BarcodeDetector();
             try {
                 const image = await imageCapture.grabFrame();
+                videoRef.pause();
                 const codes = await barcodeDetector?.detect(image);
                 if (codes.length === 0) {
                     setCode('Код не распознан!');
