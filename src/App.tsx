@@ -19,7 +19,7 @@ const App: Component = () => {
             });
             // check supported types
             BarcodeDetector.getSupportedFormats().then((supportedFormats: any) => {
-                supportedFormats.forEach((format: any) => console.log(format));
+                supportedFormats.forEach((format: any) => alert(format));
             });
         }
     });
