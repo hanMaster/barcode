@@ -8,15 +8,19 @@ const App: Component = () => {
         navigator.mediaDevices
             .getUserMedia({ video: true })
             .then((mediaStream) => {
-                document.querySelector('video')!.srcObject = mediaStream;
+                const el = document.querySelector('video');
+                alert(el);
+                el!.srcObject = mediaStream;
 
                 const track = mediaStream.getVideoTracks()[0];
                 imageCapture = new ImageCapture(track);
+                alert('imageCapture init success');
             })
             .catch((error) => alert(`onMount error: ${error}`));
     });
 
     const detectBarcode = async () => {
+        alert('start');
         if ('BarcodeDetector' in globalThis) {
             const barcodeDetector = new BarcodeDetector();
             try {
