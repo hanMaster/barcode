@@ -14,15 +14,21 @@ const App: Component = () => {
             });
             videoRef.srcObject = mediaStream;
             videoRef.play();
-            const track = mediaStream.getVideoTracks()[1];
-            imageCapture = new ImageCapture(track);
+            const track = mediaStream.getVideoTracks()[0];
+            try {
+                imageCapture = new ImageCapture(track);
+                if (!imageCapture) {
+                    alert('нет imageCapture');
+                }
+            } catch (e) {
+                alert(e);
+            }
         } else {
             alert('No video');
         }
     };
 
     const detectBarcode = async () => {
-        alert('start');
         if ('BarcodeDetector' in globalThis) {
             const barcodeDetector = new BarcodeDetector();
             try {
