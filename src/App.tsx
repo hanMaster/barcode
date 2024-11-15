@@ -7,7 +7,11 @@ const App: Component = () => {
 
     const startVideo = async () => {
         if (videoRef !== undefined) {
-            const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+            const mediaStream = await navigator.mediaDevices.getUserMedia({
+                video: {
+                    facingMode: 'environment',
+                },
+            });
             videoRef.srcObject = mediaStream;
             videoRef.play();
             const track = mediaStream.getVideoTracks()[1];
