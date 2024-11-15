@@ -3,12 +3,13 @@ import styles from './App.module.css';
 
 const App: Component = () => {
     let imageCapture: any;
-    let videoRef: any;
+    let videoRef: HTMLVideoElement;
 
     const startVideo = async () => {
         if (videoRef !== undefined) {
             const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
             videoRef.srcObject = mediaStream;
+            videoRef.play();
             const track = mediaStream.getVideoTracks()[0];
             imageCapture = new ImageCapture(track);
         } else {
@@ -37,7 +38,7 @@ const App: Component = () => {
     return (
         <div class={styles.App}>
             <header class={styles.header}>
-                <video style={{ width: '100%', height: '50vh', border: '1px solid crimson' }} ref={videoRef}></video>
+                <video style={{ width: '100%', height: '50vh', border: '1px solid crimson' }} ref={videoRef!}></video>
                 <br />
                 <div class={styles.btns}>
                     <button class={styles.scan} onClick={startVideo}>
