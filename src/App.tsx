@@ -1,38 +1,27 @@
 import { onMount, type Component } from 'solid-js';
-
-import logo from './logo.svg';
 import styles from './App.module.css';
 
 const App: Component = () => {
-    onMount(() => {
-        // check compatibility
-        if (!('BarcodeDetector' in globalThis)) {
-            console.log('Barcode Detector is not supported by this browser.');
-            alert('Barcode Detector is not supported by this browser.');
+    const detectBarcode = async () => {
+        if ('BarcodeDetector' in globalThis) {
+            const barcodeDetector = new BarcodeDetector();
+            try {
+                const codes = await barcodeDetector?.detect([new ImageCapture().grabFrame()]);
+                codes.forEach((code: any) => {
+                    alert(`Сканирован код: ${code.rawValue}`);
+                });
+            } catch (error) {
+                alert(error);
+            }
         } else {
-            console.log('Barcode Detector supported!');
-            alert('Barcode Detector supported!');
-
-            // create new detector
-            const barcodeDetector = new BarcodeDetector({
-                formats: ['code_39', 'codabar', 'ean_13'],
-            });
-            // check supported types
-            BarcodeDetector.getSupportedFormats().then((supportedFormats: any) => {
-                supportedFormats.forEach((format: any) => alert(format));
-            });
+            alert('Barcode not supported!');
         }
-    });
+    };
+
     return (
         <div class={styles.App}>
             <header class={styles.header}>
-                <img src={logo} class={styles.logo} alt="logo" />
-                <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                <a class={styles.link} href="https://github.com/solidjs/solid" target="_blank" rel="noopener noreferrer">
-                    Learn Solid
-                </a>
+                <button onClick={detectBarcode}>Scan</button>
             </header>
         </div>
     );
