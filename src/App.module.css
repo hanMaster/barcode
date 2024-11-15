@@ -13,6 +13,11 @@
     color: white;
 }
 
+.btns {
+    display: flex;
+    gap: 10px;
+}
+
 .scan {
     padding: 15px;
 }

@@ -3,21 +3,18 @@ import styles from './App.module.css';
 
 const App: Component = () => {
     let imageCapture: any;
+    let videoRef: any;
 
-    onMount(() => {
-        navigator.mediaDevices
-            .getUserMedia({ video: true })
-            .then((mediaStream) => {
-                const el = document.querySelector('video');
-                alert(el);
-                el!.srcObject = mediaStream;
-
-                const track = mediaStream.getVideoTracks()[0];
-                imageCapture = new ImageCapture(track);
-                alert('imageCapture init success');
-            })
-            .catch((error) => alert(`onMount error: ${error}`));
-    });
+    const startVideo = async () => {
+        if (videoRef !== undefined) {
+            const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+            videoRef.srcObject = mediaStream;
+            const track = mediaStream.getVideoTracks()[0];
+            imageCapture = new ImageCapture(track);
+        } else {
+            alert('No video');
+        }
+    };
 
     const detectBarcode = async () => {
         alert('start');
@@ -40,11 +37,16 @@ const App: Component = () => {
     return (
         <div class={styles.App}>
             <header class={styles.header}>
-                <video style={{ width: '100%', height: '50vh', border: '1px solid crimson' }}></video>
+                <video style={{ width: '100%', height: '50vh', border: '1px solid crimson' }} ref={videoRef}></video>
                 <br />
-                <button class={styles.scan} onClick={detectBarcode}>
-                    Scan
-                </button>
+                <div class={styles.btns}>
+                    <button class={styles.scan} onClick={startVideo}>
+                        Start video
+                    </button>
+                    <button class={styles.scan} onClick={detectBarcode}>
+                        Scan
+                    </button>
+                </div>
             </header>
         </div>
     );
