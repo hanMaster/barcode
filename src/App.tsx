@@ -1,7 +1,9 @@
-import { onMount, type Component } from 'solid-js';
+import { createSignal, type Component } from 'solid-js';
 import styles from './App.module.css';
 
 const App: Component = () => {
+    const [code, setCode] = createSignal<string>('Нет кода');
+
     let imageCapture: any;
     let videoRef: HTMLVideoElement;
 
@@ -34,8 +36,12 @@ const App: Component = () => {
             try {
                 const image = await imageCapture.grabFrame();
                 const codes = await barcodeDetector?.detect(image);
+                if (codes.length === 0) {
+                    setCode('Код не распознан!');
+                    setTimeout(() => setCode('Нет кода'), 2000);
+                }
                 codes.forEach((code: any) => {
-                    alert(`Сканирован код: ${code.rawValue}`);
+                    setCode(`Сканирован код: ${code.rawValue}`);
                 });
             } catch (error) {
                 alert(error);
@@ -48,6 +54,7 @@ const App: Component = () => {
     return (
         <div class={styles.App}>
             <header class={styles.header}>
+                <p>{code()}</p>
                 <video style={{ width: '100%', height: '50vh', border: '1px solid crimson' }} ref={videoRef!}></video>
                 <br />
                 <div class={styles.btns}>
