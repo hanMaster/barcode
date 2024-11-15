@@ -6,7 +6,23 @@ import { VitePWA } from 'vite-plugin-pwa';
 export default defineConfig({
     base: '/barcode/',
     plugins: [
-        VitePWA({ registerType: 'autoUpdate' }),
+        VitePWA({
+            registerType: 'autoUpdate',
+            manifest: {
+                id: '/',
+                name: 'Barcode Reader',
+                short_name: 'Barcode',
+                description: 'Приложение для чтения штрих-кодов',
+                theme_color: '#ffffff',
+                orientation: 'portrait',
+                icons: [
+                    {
+                        src: 'https://cdn-icons-png.flaticon.com/512/237/237399.png',
+                        sizes: '512x512',
+                    },
+                ],
+            },
+        }),
         /* 
     Uncomment the following line to enable solid-devtools.
     For more info see https://github.com/thetarnav/solid-devtools/tree/main/packages/extension#readme
