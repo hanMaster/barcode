@@ -10,7 +10,7 @@ const App: Component = () => {
             const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
             videoRef.srcObject = mediaStream;
             videoRef.play();
-            const track = mediaStream.getVideoTracks()[0];
+            const track = mediaStream.getVideoTracks()[1];
             imageCapture = new ImageCapture(track);
         } else {
             alert('No video');
