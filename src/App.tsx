@@ -8,8 +8,10 @@ const App: Component = () => {
         // check compatibility
         if (!('BarcodeDetector' in globalThis)) {
             console.log('Barcode Detector is not supported by this browser.');
+            alert('Barcode Detector is not supported by this browser.');
         } else {
             console.log('Barcode Detector supported!');
+            alert('Barcode Detector supported!');
 
             // create new detector
             const barcodeDetector = new BarcodeDetector({
